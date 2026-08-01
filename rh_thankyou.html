@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're In — Introduction to Robinhood Chain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black: #090b09;
+    --panel: #10140f;
+    --green: #4caf3d;
+    --green-bright: #7ed957;
+    --bone: #d8ddd4;
+    --bone-dim: #839080;
+    --line: #2a3527;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--black);
+    background-image:
+      radial-gradient(ellipse at 50% 0%, #10160e 0%, #090b09 60%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 6px);
+    color: var(--bone);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 48px 20px 80px;
+  }
+  .eyebrow-row{ display:flex; align-items:center; gap:14px; margin-bottom: 18px; }
+  .eyebrow-row .rank{
+    color: var(--green-bright); font-family:'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 3px; border: 1px solid var(--line); padding: 5px 10px;
+  }
+  .badge{
+    width:34px; height:34px; border-radius: 8px;
+    background: radial-gradient(circle at 35% 30%, var(--green-bright), var(--green) 60%, #205016 100%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue'; font-size:18px; color:#0a1408;
+    box-shadow: 0 0 0 2px var(--black), 0 0 0 3px var(--green);
+  }
+  h1.brand{
+    font-family:'Bebas Neue', sans-serif; font-size: clamp(32px, 6.5vw, 54px);
+    letter-spacing: 3px; color: var(--bone); text-align:center; line-height: 1;
+    text-transform: uppercase;
+  }
+  h1.brand span{ color: var(--green-bright); }
+  .tagline{
+    font-family:'DM Mono', monospace; font-size: 12px; letter-spacing: 3px;
+    color: var(--bone-dim); text-transform: uppercase; margin-top: 8px; text-align:center;
+  }
+  .divider{ width: 120px; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); margin: 28px 0; }
+
+  .recap{
+    max-width: 640px;
+    text-align:center;
+    color: var(--bone-dim);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .recap strong{ color: var(--green-bright); }
+
+  .details-row{ display:flex; flex-wrap: wrap; justify-content:center; gap: 14px; margin: 24px 0 40px; max-width: 720px; }
+  .detail-card{
+    border: 1px solid var(--green); background: linear-gradient(180deg, rgba(76,175,61,0.08), rgba(76,175,61,0.02));
+    padding: 14px 22px; text-align:center; min-width: 130px;
+  }
+  .detail-card .label{ font-family:'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--bone-dim); text-transform:uppercase; }
+  .detail-card .value{ font-family:'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--green-bright); margin-top: 4px; }
+
+  .pay-section{
+    width: 100%;
+    max-width: 640px;
+  }
+  .pay-label{
+    font-family:'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--green-bright);
+    text-transform: uppercase;
+    text-align:center;
+    margin-bottom: 18px;
+  }
+
+  .pay-card{
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+  }
+  .pay-card .pay-title{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    font-size: 19px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 6px;
+  }
+  .pay-card .pay-sub{
+    font-family:'Barlow', sans-serif;
+    font-size: 13px;
+    color: var(--bone-dim);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .pay-btn{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+    padding: 14px;
+    background: linear-gradient(180deg, var(--green-bright), var(--green));
+    color: #0a1408 !important;
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration:none;
+    transition: filter .15s ease;
+  }
+  .pay-btn:hover{ filter: brightness(1.08); }
+
+  .addr-row{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    background: var(--black);
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+  .addr-row .chain-tag{
+    font-family:'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--green-bright);
+    text-transform: uppercase;
+    min-width: 60px;
+    flex-shrink: 0;
+  }
+  .addr-row .addr-text{
+    font-family:'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--bone);
+    word-break: break-all;
+    flex: 1;
+  }
+  .copy-btn{
+    flex-shrink:0;
+    background: var(--line);
+    color: var(--bone);
+    border: none;
+    font-family:'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    cursor:pointer;
+    transition: background .15s ease;
+  }
+  .copy-btn:hover{ background: var(--green); color: #0a1408; }
+  .copy-btn.copied{ background: var(--green-bright); color: #0a1408; }
+
+  .fine-print{
+    max-width: 640px;
+    text-align:center;
+    color: var(--bone-dim);
+    font-family:'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-top: 30px;
+    line-height:1.6;
+  }
+
+  .footer-motto{
+    margin-top: 40px;
+    font-family:'Bebas Neue';
+    letter-spacing: 3px;
+    color: var(--bone-dim);
+    font-size: 14px;
+    text-align:center;
+  }
+  .footer-motto span{ color: var(--green-bright); }
+</style>
+</head>
+<body>
+
+  <div class="eyebrow-row">
+    <div class="badge">₿</div>
+    <span class="rank">BLOCK WALL STREET</span>
+  </div>
+
+  <h1 class="brand">You're <span>In.</span></h1>
+  <p class="tagline">Introduction to Robinhood Chain</p>
+
+  <div class="divider"></div>
+
+  <p class="recap">Your seat is reserved. This is a fully virtual session — the join link and recording access will be sent by email. <strong>Complete payment below to lock in your spot.</strong></p>
+
+  <div class="details-row">
+    <div class="detail-card"><div class="label">Date</div><div class="value">Wednesday</div></div>
+    <div class="detail-card"><div class="label">Time</div><div class="value">7:00 PM CST</div></div>
+    <div class="detail-card"><div class="label">Duration</div><div class="value">2+ Hours</div></div>
+    <div class="detail-card"><div class="label">Cost</div><div class="value">$100</div></div>
+  </div>
+
+  <div class="pay-section">
+    <div class="pay-label">Choose Your Payment Method</div>
+
+    <div class="pay-card">
+      <div class="pay-title">Pay With Card — Stripe</div>
+      <div class="pay-sub">Fastest option. Debit or credit card, secure checkout.</div>
+      <a class="pay-btn" href="https://buy.stripe.com/3cI4gBgec8GP46W6Z22sM00" target="_blank" rel="noopener">Pay $100 via Stripe</a>
+    </div>
+
+    <div class="pay-card">
+      <div class="pay-title">Pay With Chime</div>
+      <div class="pay-sub">Send $100 directly using the Chime link below.</div>
+      <a class="pay-btn" href="https://app.chime.com/link/qr?u=Amir-Hodari-el" target="_blank" rel="noopener">Pay $100 via Chime</a>
+    </div>
+
+    <div class="pay-card">
+      <div class="pay-title">Pay With Crypto</div>
+      <div class="pay-sub">Send the equivalent of $100 to the address for your network. Tap "Copy" and paste into your wallet.</div>
+
+      <div class="addr-row">
+        <span class="chain-tag">Solana</span>
+        <span class="addr-text" id="addr-sol">HjUtHhcpLc9a5yAAAeGzTaidmgNh6CL3PNLE6TTLYXEV</span>
+        <button class="copy-btn" onclick="copyAddr('addr-sol', this)">Copy</button>
+      </div>
+
+      <div class="addr-row">
+        <span class="chain-tag">EVM</span>
+        <span class="addr-text" id="addr-evm">0x5FC836a0518973D7FE20081F7b19EE207E6b324C</span>
+        <button class="copy-btn" onclick="copyAddr('addr-evm', this)">Copy</button>
+      </div>
+      <div class="pay-sub" style="margin: -8px 0 12px;">EVM address works for ETH, Base, Polygon, Avalanche, Robinhood Chain, and other EVM networks.</div>
+
+      <div class="addr-row">
+        <span class="chain-tag">Bitcoin</span>
+        <span class="addr-text" id="addr-btc">bc1qayrmw6xnljvfe4kk7k740tzh55smww3mx0u7e8</span>
+        <button class="copy-btn" onclick="copyAddr('addr-btc', this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="fine-print">Double-check you're sending on the correct network before confirming any crypto transaction.<br>Once payment is received, your seat is fully confirmed — no further action needed.</p>
+
+  <div class="footer-motto">★ REAL-WORLD ASSETS. <span>ON-CHAIN.</span> ★</div>
+
+<script>
+  function copyAddr(id, btn){
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(function(){
+      const original = btn.innerText;
+      btn.innerText = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.innerText = original;
+        btn.classList.remove('copied');
+      }, 1800);
+    });
+  }
+</script>
+
+</body>
+</html>

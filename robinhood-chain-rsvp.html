@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Robinhood Chain — RSVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black: #090b09;
+    --panel: #10140f;
+    --green: #4caf3d;
+    --green-bright: #7ed957;
+    --bone: #d8ddd4;
+    --bone-dim: #839080;
+    --line: #2a3527;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--black);
+    background-image:
+      radial-gradient(ellipse at 50% 0%, #10160e 0%, #090b09 60%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 2px, transparent 2px, transparent 6px);
+    color: var(--bone);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 48px 20px 80px;
+  }
+  .eyebrow-row{ display:flex; align-items:center; gap:14px; margin-bottom: 18px; }
+  .eyebrow-row .rank{
+    color: var(--green-bright); font-family:'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 3px; border: 1px solid var(--line); padding: 5px 10px;
+  }
+  .badge{
+    width:34px; height:34px; border-radius: 8px;
+    background: radial-gradient(circle at 35% 30%, var(--green-bright), var(--green) 60%, #205016 100%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue'; font-size:18px; color:#0a1408;
+    box-shadow: 0 0 0 2px var(--black), 0 0 0 3px var(--green);
+  }
+  h1.brand{
+    font-family:'Bebas Neue', sans-serif; font-size: clamp(30px, 6vw, 50px);
+    letter-spacing: 3px; color: var(--bone); text-align:center; line-height: 1;
+    text-transform: uppercase;
+  }
+  h1.brand span{ color: var(--green-bright); }
+  .tagline{
+    font-family:'DM Mono', monospace; font-size: 12px; letter-spacing: 3px;
+    color: var(--bone-dim); text-transform: uppercase; margin-top: 8px; text-align:center;
+  }
+  .divider{ width: 120px; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); margin: 28px 0; }
+  .headline-card{ max-width: 720px; text-align:center; }
+  .headline-card .program{
+    font-family:'Bebas Neue', sans-serif; color: var(--green-bright);
+    font-size: clamp(28px, 5.5vw, 44px); letter-spacing: 2px; margin: 6px 0 14px;
+    text-transform: uppercase;
+  }
+  .headline-card p{ color: var(--bone-dim); font-size: 15px; line-height: 1.6; max-width: 560px; margin: 0 auto; }
+  .headline-card p strong{ color: var(--green-bright); font-weight:600; }
+  .details-row{ display:flex; flex-wrap: wrap; justify-content:center; gap: 14px; margin: 30px 0; max-width: 720px; }
+  .detail-card{
+    border: 1px solid var(--green); background: linear-gradient(180deg, rgba(76,175,61,0.08), rgba(76,175,61,0.02));
+    padding: 14px 22px; text-align:center; min-width: 140px;
+  }
+  .detail-card .label{ font-family:'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--bone-dim); text-transform:uppercase; }
+  .detail-card .value{ font-family:'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; color: var(--green-bright); margin-top: 4px; }
+  .rwa-row{ display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; max-width: 900px; width: 100%; margin: 10px 0 40px; }
+  .rwa{ border: 1px solid var(--line); background: var(--panel); padding: 14px 6px; text-align:center; }
+  .rwa .name{ font-family:'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.5px; color: var(--bone-dim); text-transform:uppercase; display:block; line-height:1.3; }
+  .rwa-row-label{ font-family:'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--green-bright); text-transform:uppercase; text-align:center; margin-bottom: 12px; }
+  form{ width: 100%; max-width: 440px; background: var(--panel); border: 1px solid var(--line); padding: 32px 28px 28px; position:relative; }
+  form::before{
+    content:"RSVP"; position:absolute; top:-13px; left:24px; background: var(--black); padding: 0 10px;
+    font-family:'DM Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--green-bright);
+  }
+  .field{ margin-bottom: 18px; }
+  label{ display:block; font-family:'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--bone-dim); margin-bottom: 7px; }
+  input, select{
+    width:100%; background: var(--black); border: 1px solid var(--line); color: var(--bone);
+    font-family:'Barlow', sans-serif; font-size: 15px; padding: 11px 12px; outline:none;
+    transition: border-color .15s ease;
+  }
+  input:focus, select:focus{ border-color: var(--green); }
+  input::placeholder{ color: #4a5546; }
+  button{
+    width:100%; margin-top: 6px; padding: 14px;
+    background: linear-gradient(180deg, var(--green-bright), var(--green)); border: none;
+    color: #0a1408; font-family:'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: 2px; text-transform: uppercase; cursor:pointer;
+    transition: filter .15s ease, transform .1s ease;
+  }
+  button:hover{ filter: brightness(1.08); }
+  button:active{ transform: translateY(1px); }
+  button:focus-visible{ outline: 2px solid var(--bone); outline-offset: 2px; }
+  .fine-print{ max-width: 440px; text-align:center; color: var(--bone-dim); font-family:'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; margin-top: 18px; line-height:1.6; }
+  #confirm{ display:none; max-width: 440px; text-align:center; padding: 30px 10px; }
+  #confirm.show{ display:block; }
+  #confirm .num{ font-family:'Bebas Neue'; font-size: 40px; color: var(--green-bright); letter-spacing:2px; }
+  #confirm p{ color: var(--bone-dim); font-size: 14px; margin-top: 10px; line-height:1.6; }
+  .footer-motto{ margin-top: 50px; font-family:'Bebas Neue'; letter-spacing: 3px; color: var(--bone-dim); font-size: 14px; text-align:center; }
+  .footer-motto span{ color: var(--green-bright); }
+  @media (max-width: 640px){ .rwa-row{ grid-template-columns: repeat(3, minmax(0,1fr)); } }
+  @media (prefers-reduced-motion: reduce){ *{ transition: none !important; } }
+</style>
+</head>
+<body>
+
+  <div class="eyebrow-row">
+    <div class="badge">₿</div>
+    <span class="rank">BLOCK WALL STREET</span>
+  </div>
+
+  <h1 class="brand">Introduction To<br><span>Robinhood Chain</span></h1>
+  <p class="tagline">The Future of On-Chain RWAs</p>
+
+  <div class="divider"></div>
+
+  <div class="headline-card">
+    <div class="program">Real-World Assets, On-Chain</div>
+    <p>From the Robinhood App, to the Robinhood Upgrade, to <strong>Robinhood Chain</strong> — a virtual breakdown of how tokenized U.S. Treasuries, real estate, private credit, commodities, and equities are moving on-chain, and what it means for how you build wealth. Fully online — a recording will be provided to everyone who registers.</p>
+  </div>
+
+  <div class="details-row">
+    <div class="detail-card"><div class="label">Date</div><div class="value">Wednesday</div></div>
+    <div class="detail-card"><div class="label">Time</div><div class="value">7:00 PM CST</div></div>
+    <div class="detail-card"><div class="label">Duration</div><div class="value">2+ Hours</div></div>
+    <div class="detail-card"><div class="label">Cost</div><div class="value">$100</div></div>
+  </div>
+
+  <div class="rwa-row-label">The Future of On-Chain RWAs</div>
+  <div class="rwa-row">
+    <div class="rwa"><span class="name">U.S. Treasuries</span></div>
+    <div class="rwa"><span class="name">Real Estate</span></div>
+    <div class="rwa"><span class="name">Private Credit</span></div>
+    <div class="rwa"><span class="name">Commodities</span></div>
+    <div class="rwa"><span class="name">Equities</span></div>
+  </div>
+
+  <form id="rsvpForm" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="cbde23f6-f617-4b16-953f-7b0aab0e9f58">
+    <input type="hidden" name="subject" value="New RSVP — Introduction to Robinhood Chain (Wednesday 7PM CST)">
+    <input type="hidden" name="from_name" value="BWS RSVP Page">
+    <input type="hidden" name="redirect" value="https://blockwallstreethub.github.io/IntroductionToRobinhooodChainRSVP/rh_thankyou.html">
+
+    <div class="field">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@email.com" required>
+    </div>
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" placeholder="(___) ___-____" required>
+    </div>
+    <div class="field">
+      <label for="attend">Can You Attend Live?</label>
+      <select id="attend" name="attend" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="Yes, attending live">Yes, attending live</option>
+        <option value="No, need the recording">No, need the recording</option>
+      </select>
+    </div>
+
+    <button type="submit">Reserve My Spot — $100</button>
+  </form>
+
+  <p class="fine-print">Spaces are limited to keep the session interactive.<br>Transparency. Access. Ownership.</p>
+
+  <div class="footer-motto">★ REAL-WORLD ASSETS. <span>ON-CHAIN.</span> ★</div>
+
+</body>
+</html>
